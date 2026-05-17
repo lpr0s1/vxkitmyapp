@@ -646,6 +646,7 @@ class VxAboutPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 24),
           const Text("VXKIT", style: TextStyle(fontSize: 42, fontWeight: FontWeight.w900, letterSpacing: 8)),
           const SizedBox(height: 60),
           _buildInfoRow("Developpeur", "HX"),

@@ -247,7 +247,6 @@ class ToolsPage extends StatelessWidget {
     ),
     PentestTool(
       name: "Commix",
-      category: "WEB",
       description: "Exploitation automatisée d'injections de commandes système.",
       icon: Icons.code,
       commands: {

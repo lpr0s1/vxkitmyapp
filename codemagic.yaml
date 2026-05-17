@@ -1,0 +1,41 @@
+workflows:
+  ios-unsigned-ipa:
+    name: Build iOS IPA (Unsigned / Sans Terminal)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+    scripts:
+      - name: 1. Initialiser l'arborescence iOS
+        script: |
+          echo "Génération des dossiers natifs iOS..."
+          if [ ! -d "ios" ]; then
+            flutter create . --project-name vxkit --org com.hx --platforms ios
+          else
+            echo "Dossier iOS déjà présent."
+          fi
+      - name: 2. Télécharger les dépendances
+        script: |
+          flutter pub get
+      - name: 3. Compiler la version iOS (Sans signature)
+        script: |
+          echo "Compilation en cours... (Mode sans signature Apple)"
+          flutter build ios --release --no-codesign
+      - name: 4. Créer le fichier .ipa
+        script: |
+          echo "Empaquetage du Payload..."
+          mkdir -p build/ios/ipa
+          cd build/ios/iphoneos
+          mkdir -p Payload
+          mv Runner.app Payload/
+          zip -r -q ../ipa/vxkit_sideload.ipa Payload
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - test@example.com # Codemagic remplacera par votre email de compte
+        notify:
+          success: true
+          failure: true

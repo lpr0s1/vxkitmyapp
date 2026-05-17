@@ -29,7 +29,7 @@ workflows:
           cd build/ios/iphoneos
           mkdir -p Payload
           mv Runner.app Payload/
-          zip -r -q ../ipa/vxkit_sideload.ipa Payload
+          zip -r -q ../ipa/vxkit.ipa Payload
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:

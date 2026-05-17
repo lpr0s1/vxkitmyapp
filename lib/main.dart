@@ -440,7 +440,7 @@ class _TerminalSimPageState extends State<TerminalSimPage> {
 
     switch (cmd.toLowerCase()) {
       case 'help':
-        response = "Commandes actives:\n  ls       - Liste les répertoires\n  clear    - Nettoie le terminal\n  whoami   - Affiche l'utilisateur\n  nmap     - Simule un scan réseau\n  exploit  - Simule une attaque";
+        response = "Commandes actives:\n  ls       - Liste les répertoires\n  clear    - Nettoie le terminal\n  whoami   - Affiche l'utilisateur\n  nmap     - Simule un scan réseau\nset lhost - Cree un reverse shell\n set rhost - (ip de la cible a attaquer)\n  exploit  - Simule une attaque";
         type = "sys";
         break;
       case 'ls':

@@ -18,6 +18,12 @@ workflows:
       - name: 2. Télécharger les dépendances
         script: |
           flutter pub get
+            - name: 1.5 Générer automatiquement l'icône de l'application
+        script: |
+          if [ -f "assets/app_icon.png" ]; then
+            flutter pub get
+            dart run flutter_launcher_icons
+          fi
       - name: 3. Compiler la version iOS (Sans signature)
         script: |
           echo "Compilation en cours... (Mode sans signature Apple)"

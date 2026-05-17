@@ -458,19 +458,19 @@ class _TerminalSimPageState extends State<TerminalSimPage> {
         break;
       case 'nmap':
         response = "Starting Nmap 7.93...\nScanning 127.0.0.1...\n[+] Port 22/tcp Open (ssh)\n[+] Port 80/tcp Open (http)\n[+] Port 443/tcp Open (https)\nNmap done: 1 IP address scanned in 1.42 seconds.";
-        type = "success";
+        type = "sys";
         break;
-      case 'set rhost'
+      case 'set rhost':
         response = "rhost = 192.168.1.10 (la cible)"
-        type = "success";
+        type = "sys";
         break;
-      case 'set rport'
+      case 'set rport':
         response = "rport = 80 ou bien 4444 (port de la cible)";
-        type = "success";
+        type = "sys";
         break;
-      case 'set lhost'
+      case 'set lhost':
         response = "lhost = 192.168.1.5 (votre ip pour un reverse shell)";
-        type = "success";
+        type = "sys";
         break;
       case 'exploit':
         response = "[*] Started reverse TCP handler on 0.0.0.0:4444\n[*] Sending stage (175174 bytes) to 192.168.1.45\n[+] Meterpreter session 1 opened (192.168.1.45)\n\nmeterpreter > getuid\nServer username: NT AUTHORITY\\SYSTEM";

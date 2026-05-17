@@ -405,7 +405,6 @@ class _TerminalSimPageState extends State<TerminalSimPage> {
   final FocusNode _focusNode = FocusNode();
   
   final List<Map<String, String>> _history = [
-    {"text": "VXKIT OS v1.0.0-STABLE READY.", "type": "sys"},
     {"text": "Tapez 'help' pour voir les commandes disponibles.", "type": "sys"},
   ];
 
@@ -432,7 +431,7 @@ class _TerminalSimPageState extends State<TerminalSimPage> {
     _scrollToBottom();
     _focusNode.requestFocus(); // Garde le clavier ouvert
 
-    // Délai pour simuler le traitement
+
     await Future.delayed(const Duration(milliseconds: 300));
 
     String response;
@@ -647,11 +646,11 @@ class VxAboutPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 24),
-          const Text("VXKIT", style: TextStyle(fontSize: 42, fontWeight: FontWeight.w900, letterSpacing: 8)),
-          const SizedBox(height: 60),
+          const Text("VxKit", style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900, letterSpacing: 8)),
+          const SizedBox(height: 50),
           _buildInfoRow("Developpeur", "HX"),
           _buildInfoRow("Version", "v0.0.3"),
-          _buildInfoRow("Satus", "En developpement..."),
+          _buildInfoRow("Status", "En developpement..."),
           const SizedBox(height: 60),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -669,7 +668,7 @@ class VxAboutPage extends StatelessWidget {
                 children: [
                   Icon(Icons.telegram, size: 24),
                   SizedBox(width: 12),
-                  Text("Rejoindre sur telegram", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
+                  Text("Rejoindre sur telegram", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15, letterSpacing: 1)),
                 ],
               ),
             ),

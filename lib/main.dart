@@ -1548,7 +1548,7 @@ class CommandsQuickPage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
-          "SUR LA MACHINE CIBLE ET LA VOTRE", 
+          "Client/Server", 
           style: TextStyle(letterSpacing: 2, color: Colors.white, fontWeight: FontWeight.bold)
         ),
         centerTitle: true,

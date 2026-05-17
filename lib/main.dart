@@ -29,7 +29,7 @@ class VxKitApp extends StatelessWidget {
   }
 }
 
-// --- Modèle de données enrichi ---
+// --- Modèle de données simple ---
 class PentestTool {
   final String name;
   final String description;

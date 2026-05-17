@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:ui';
 
 void main() {
   runApp(const VxKitApp());
@@ -19,19 +18,18 @@ class VxKitApp extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
         primaryColor: Colors.white,
-        fontFamily: 'Courier', // Look plus "hacker"
       ),
       home: const MainNavigation(),
     );
   }
 }
 
-// --- Modèle de données pour les outils ---
+// --- Modele de donnees pour les outils ---
 class PentestTool {
   final String name;
   final String description;
   final IconData icon;
-  final Map<String, String> commands; // Plateforme -> Commande
+  final Map<String, String> commands;
 
   PentestTool({
     required this.name, 
@@ -60,7 +58,10 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(top: BorderSide(color: Colors.white.withOpacity(0.1), width: 0.5)),
@@ -89,10 +90,10 @@ class _MainNavigationState extends State<MainNavigation> {
 class ToolsPage extends StatelessWidget {
   const ToolsPage({super.key});
 
-  static List<PentestTool> tools = [
+  static final List<PentestTool> tools = [
     PentestTool(
       name: "Nmap",
-      description: "Scanner de ports et découverte de réseau.",
+      description: "Scanner de ports et decouverte de reseau.",
       icon: Icons.radar,
       commands: {
         "iSH": "apk add nmap && nmap -sV target.com",
@@ -102,10 +103,10 @@ class ToolsPage extends StatelessWidget {
     ),
     PentestTool(
       name: "Metasploit",
-      description: "Framework d'exploitation de vulnérabilités.",
+      description: "Framework d'exploitation de vulnerabilites.",
       icon: Icons.bug_report_outlined,
       commands: {
-        "iSH": "Not recommended (too heavy)",
+        "iSH": "Non recommande (trop lourd)",
         "Termux": "pkg install metasploit && msfconsole",
         "Windows": "msfconsole.bat",
       }
@@ -124,56 +125,78 @@ class ToolsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          expandedHeight: 120.0,
-          backgroundColor: Colors.black,
-          flexibleSpace: FlexibleSpaceBar(
-            title: const Text("TOOLS", style: TextStyle(letterSpacing: 4, fontWeight: FontWeight.w900, color: Colors.white)),
-            centerTitle: true,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            expandedHeight: 120.0,
+            backgroundColor: Colors.black,
+            floating: false,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                "TOOLS", 
+                style: TextStyle(
+                  letterSpacing: 4, 
+                  fontWeight: FontWeight.w900, 
+                  color: Colors.white,
+                )
+              ),
+              centerTitle: true,
+            ),
           ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final tool = tools[index];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: InkWell(
-                  onTap: () => _showToolDetails(context, tool),
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.white.withOpacity(0.1)),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(tool.icon, size: 30, color: Colors.white),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(tool.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-                              const SizedBox(height: 4),
-                              Text(tool.description, style: TextStyle(fontSize: 12, color: Colors.grey[500])),
-                            ],
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final tool = tools[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: InkWell(
+                    onTap: () => _showToolDetails(context, tool),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.white.withOpacity(0.1)),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(tool.icon, size: 30, color: Colors.white),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  tool.name, 
+                                  style: const TextStyle(
+                                    fontSize: 18, 
+                                    fontWeight: FontWeight.bold, 
+                                    color: Colors.white,
+                                  )
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  tool.description, 
+                                  style: TextStyle(fontSize: 12, color: Colors.grey[500])
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white),
-                      ],
+                          const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-            childCount: tools.length,
+                );
+              },
+              childCount: tools.length,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -192,17 +215,37 @@ class ToolsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: Container(width: 50, height: 5, decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(10)))),
+            Center(
+              child: Container(
+                width: 50, 
+                height: 5, 
+                decoration: BoxDecoration(
+                  color: Colors.white24, 
+                  borderRadius: BorderRadius.circular(10),
+                )
+              )
+            ),
             const SizedBox(height: 30),
-            Text(tool.name.toUpperCase(), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: 2)),
+            Text(
+              tool.name.toUpperCase(), 
+              style: const TextStyle(
+                fontSize: 28, 
+                fontWeight: FontWeight.bold, 
+                letterSpacing: 2,
+                color: Colors.white,
+              )
+            ),
             const SizedBox(height: 10),
             Text(tool.description, style: TextStyle(color: Colors.grey[400])),
             const SizedBox(height: 30),
-            const Text("COMMANDS BY OS", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey)),
+            const Text(
+              "COMMANDS BY OS", 
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey)
+            ),
             const SizedBox(height: 15),
             Expanded(
               child: ListView(
-                children: tool.commands.entries.map((entry) => _buildCodeBox(entry.key, entry.value)).toList(),
+                children: tool.commands.entries.map((entry) => _buildCodeBox(context, entry.key, entry.value)).toList(),
               ),
             ),
           ],
@@ -211,13 +254,16 @@ class ToolsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCodeBox(String platform, String code) {
+  Widget _buildCodeBox(BuildContext context, String platform, String code) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8, top: 16),
-          child: Text(platform, style: const TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.bold)),
+          child: Text(
+            platform, 
+            style: const TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.bold)
+          ),
         ),
         Container(
           width: double.infinity,
@@ -232,7 +278,7 @@ class ToolsPage extends StatelessWidget {
               Expanded(
                 child: RichText(
                   text: TextSpan(
-                    style: const TextStyle(fontFamily: 'Courier', fontSize: 13),
+                    style: const TextStyle(fontSize: 13),
                     children: _highlightSyntax(code),
                   ),
                 ),
@@ -241,6 +287,13 @@ class ToolsPage extends StatelessWidget {
                 icon: const Icon(Icons.copy, size: 18, color: Colors.white38),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: code));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Copie dans le presse-papiers'),
+                      duration: Duration(seconds: 1),
+                      backgroundColor: Colors.white24,
+                    ),
+                  );
                 },
               )
             ],
@@ -251,13 +304,15 @@ class ToolsPage extends StatelessWidget {
   }
 
   List<TextSpan> _highlightSyntax(String code) {
-    // Simple logic de coloration : vert pour les commandes, jaune pour les options
     List<TextSpan> spans = [];
     final parts = code.split(' ');
     for (int i = 0; i < parts.length; i++) {
       Color color = Colors.white;
-      if (i == 0) color = Colors.greenAccent; // Commande principale
-      else if (parts[i].startsWith('-')) color = Colors.yellowAccent; // Options
+      if (i == 0) {
+        color = Colors.greenAccent;
+      } else if (parts[i].startsWith('-')) {
+        color = Colors.yellowAccent;
+      }
       
       spans.add(TextSpan(text: "${parts[i]} ", style: TextStyle(color: color)));
     }
@@ -273,20 +328,26 @@ class CommandsQuickPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(backgroundColor: Colors.black, title: const Text("QUICK CMDS", style: TextStyle(letterSpacing: 2))),
+      appBar: AppBar(
+        backgroundColor: Colors.black, 
+        title: const Text(
+          "QUICK CMDS", 
+          style: TextStyle(letterSpacing: 2, color: Colors.white)
+        )
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          _buildQuickTile("Nettoyage Log", "rm -rf /var/log/*.log"),
-          _buildQuickTile("IP Publique", "curl ifconfig.me"),
-          _buildQuickTile("Processus Actifs", "ps aux | grep root"),
-          _buildQuickTile("Écoute Ports", "netstat -tuln"),
+          _buildQuickTile(context, "Nettoyage Log", "rm -rf /var/log/*.log"),
+          _buildQuickTile(context, "IP Publique", "curl ifconfig.me"),
+          _buildQuickTile(context, "Processus Actifs", "ps aux | grep root"),
+          _buildQuickTile(context, "Ecoute Ports", "netstat -tuln"),
         ],
       ),
     );
   }
 
-  Widget _buildQuickTile(String title, String cmd) {
+  Widget _buildQuickTile(BuildContext context, String title, String cmd) {
     return Container(
       margin: const EdgeInsets.bottom(15),
       padding: const EdgeInsets.all(15),
@@ -302,8 +363,28 @@ class CommandsQuickPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(cmd, style: const TextStyle(color: Colors.white, fontFamily: 'Courier')),
-              const Icon(Icons.content_copy, size: 16, color: Colors.white24),
+              Expanded(
+                child: Text(
+                  cmd, 
+                  style: const TextStyle(color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.content_copy, size: 16, color: Colors.white24),
+                constraints: const BoxConstraints(),
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: cmd));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Copie dans le presse-papiers'),
+                      duration: Duration(seconds: 1),
+                      backgroundColor: Colors.white24,
+                    ),
+                  );
+                },
+              ),
             ],
           )
         ],
@@ -318,36 +399,53 @@ class VxAboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Vx", style: TextStyle(fontSize: 80, fontWeight: FontWeight.w900, letterSpacing: -5)),
-            const Divider(color: Colors.white10),
-            const SizedBox(height: 20),
-            _infoRow("DEVELOPER", "Hx"),
-            _infoRow("VERSION", "0.0.1"),
-            _infoRow("STATUS", "STABLE"),
-            const SizedBox(height: 50),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                minimumSize: const Size(double.infinity, 60),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              ),
-              onPressed: () {
-                // Note: Navigator.canLaunch non dispo en standard, utilisez url_launcher si besoin
-                // Ici on simule l'action
-              },
-              icon: const Icon(Icons.send),
-              label: const Text("TELEGRAM SHARE", style: TextStyle(fontWeight: FontWeight.bold)),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Vx", 
+                  style: TextStyle(fontSize: 80, fontWeight: FontWeight.w900, letterSpacing: -5, color: Colors.white)
+                ),
+                const Divider(color: Colors.white10),
+                const SizedBox(height: 20),
+                _infoRow("DEVELOPER", "Hx"),
+                _infoRow("VERSION", "0.0.1"),
+                _infoRow("STATUS", "STABLE"),
+                const SizedBox(height: 50),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    minimumSize: const Size(double.infinity, 60),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  ),
+                  onPressed: () {
+                    // Copie du lien Telegram
+                    Clipboard.setData(const ClipboardData(text: "https://t.me/vxshare5"));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Lien Telegram copie !'),
+                        backgroundColor: Colors.white24,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.send),
+                  label: const Text("COPY TELEGRAM LINK", style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "https://t.me/vxshare5", 
+                  style: TextStyle(color: Colors.grey, fontSize: 12)
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            Text("https://t.me/vxshare5", style: TextStyle(color: Colors.grey[600], fontSize: 12)),
-          ],
+          ),
         ),
       ),
     );

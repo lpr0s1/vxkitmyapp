@@ -156,7 +156,7 @@ class _ToolsPageState extends State<ToolsPage> {
       return Scaffold(
         appBar: AppBar(
           title: const Text(
-            "VXKIT_CORE",
+            "VXKIT",
             style: TextStyle(letterSpacing: 8, fontWeight: FontWeight.w900, color: Colors.white, fontSize: 18),
           ),
         ),
@@ -453,11 +453,23 @@ class _TerminalSimPageState extends State<TerminalSimPage> {
         });
         return;
       case 'whoami':
-        response = "root (vxkit-operator)";
+        response = "root (vxkit)";
         type = "sys";
         break;
       case 'nmap':
         response = "Starting Nmap 7.93...\nScanning 127.0.0.1...\n[+] Port 22/tcp Open (ssh)\n[+] Port 80/tcp Open (http)\n[+] Port 443/tcp Open (https)\nNmap done: 1 IP address scanned in 1.42 seconds.";
+        type = "success";
+        break;
+      case 'set rhost'
+        response = "rhost = 192.168.1.10 (la cible)"
+        type = "success";
+        break;
+      case 'set rport'
+        response = "rport = 80 ou bien 4444 (port de la cible)";
+        type = "success";
+        break;
+      case 'set lhost'
+        response = "lhost = 192.168.1.5 (votre ip pour un reverse shell)";
         type = "success";
         break;
       case 'exploit':
@@ -481,7 +493,7 @@ class _TerminalSimPageState extends State<TerminalSimPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("TERMINAL_SIM", style: TextStyle(letterSpacing: 4, fontWeight: FontWeight.w900, fontSize: 16)),
+        title: const Text("Terminal | Comportement des tools", style: TextStyle(letterSpacing: 4, fontWeight: FontWeight.w900, fontSize: 11)),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Container(color: Colors.white10, height: 1.0),
@@ -550,11 +562,10 @@ class UpdatesPage extends StatelessWidget {
   static const List<UpdateRelease> updates = [
     UpdateRelease(
       version: "v0.0.3",
-      date: "18 Mai 2026",
+      date: "17 Mai 2026",
       changes: [
-        "Nouveau design Industrial Cyber (Dark/Steel/Cobalt).",
+        "Nouveau design.",
         "Ajout d'un simulateur de Terminal interactif.",
-        "Restauration de l'arsenal complet (Metasploit, Hydra, Radare2...).",
       ],
     ),
     UpdateRelease(
@@ -635,14 +646,11 @@ class VxAboutPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.shield_sharp, size: 80, color: Colors.white),
-          const SizedBox(height: 24),
-          const Text("VXKIT_OS", style: TextStyle(fontSize: 42, fontWeight: FontWeight.w900, letterSpacing: 8)),
-          const Text("OFFENSIVE MOBILE INFRASTRUCTURE", style: TextStyle(color: Colors.white30, letterSpacing: 2, fontSize: 9, fontWeight: FontWeight.bold)),
+          const Text("VXKIT", style: TextStyle(fontSize: 42, fontWeight: FontWeight.w900, letterSpacing: 8)),
           const SizedBox(height: 60),
-          _buildInfoRow("OPERATOR", "HX_CORE"),
-          _buildInfoRow("BUILD_VERSION", "v0.0.3-STABLE"),
-          _buildInfoRow("NETWORK_STATUS", "ENCRYPTED"),
+          _buildInfoRow("Developpeur", "HX"),
+          _buildInfoRow("Version", "v0.0.3"),
+          _buildInfoRow("Satus", "En developpement..."),
           const SizedBox(height: 60),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -660,7 +668,7 @@ class VxAboutPage extends StatelessWidget {
                 children: [
                   Icon(Icons.telegram, size: 24),
                   SizedBox(width: 12),
-                  Text("SECURE_COMMS (TELEGRAM)", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
+                  Text("Rejoindre sur telegram", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
                 ],
               ),
             ),
@@ -668,7 +676,7 @@ class VxAboutPage extends StatelessWidget {
           const SizedBox(height: 24),
           TextButton(
             onPressed: () => Clipboard.setData(const ClipboardData(text: "https://t.me/vxshare5")),
-            child: const Text("[ COPY_RAW_LINK ]", style: TextStyle(color: Colors.white24, fontSize: 10, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
+            child: const Text("[ Copier le lien ]", style: TextStyle(color: Colors.white24, fontSize: 10, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
           )
         ],
       ),

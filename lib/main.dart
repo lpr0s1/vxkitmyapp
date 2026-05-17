@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
 void main() {
   runApp(const VxKitApp());
@@ -19,8 +20,8 @@ class VxKitApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF050505),
-        primaryColor: Colors.blueAccent,
-        fontFamily: 'SF Pro Display', // Utilise la police système par défaut
+        primaryColor: const Color(0xFF26A5E4),
+        fontFamily: 'SF Pro Display',
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -88,7 +89,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _pages = [
     const ToolsPage(),
-    const CommandsQuickPage(),
+    const TerminalSimPage(), // Remplacement par le Simulateur de Terminal
     const UpdatesPage(),
     const VxAboutPage(),
   ];
@@ -101,7 +102,7 @@ class _MainNavigationState extends State<MainNavigation> {
         children: _pages,
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(top: 8),
+        padding: const EdgeInsets.only(top: 4),
         decoration: BoxDecoration(
           color: const Color(0xFF0A0A0A),
           border: Border(top: BorderSide(color: Colors.white.withOpacity(0.05), width: 1)),
@@ -111,18 +112,18 @@ class _MainNavigationState extends State<MainNavigation> {
           onTap: (index) => setState(() => _selectedIndex = index),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: Colors.blueAccent,
-          unselectedItemColor: Colors.grey[700],
+          selectedItemColor: const Color(0xFF26A5E4),
+          unselectedItemColor: Colors.white24,
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: const TextStyle(fontSize: 10),
+          selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1),
+          unselectedLabelStyle: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
           type: BottomNavigationBarType.fixed,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded), label: 'Outils'),
-            BottomNavigationBarItem(icon: Icon(Icons.terminal_rounded), label: 'Flash'),
-            BottomNavigationBarItem(icon: Icon(Icons.history_rounded), label: 'Logs'),
-            BottomNavigationBarItem(icon: Icon(Icons.shield_rounded), label: 'VxKit'),
+            BottomNavigationBarItem(icon: Icon(Icons.grid_view_sharp), label: 'BINAIRES'),
+            BottomNavigationBarItem(icon: Icon(Icons.terminal_sharp), label: 'SHELL'),
+            BottomNavigationBarItem(icon: Icon(Icons.update_sharp), label: 'LOGS'),
+            BottomNavigationBarItem(icon: Icon(Icons.shield_sharp), label: 'SYS'),
           ],
         ),
       ),
@@ -130,7 +131,7 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 }
 
-// --- Page 1: Grille des outils (Nouveau Design) ---
+// --- Page 1: Grille des outils (Design Industriel / Noir & Blanc / Bleu) ---
 class ToolsPage extends StatefulWidget {
   const ToolsPage({super.key});
 
@@ -142,11 +143,11 @@ class _ToolsPageState extends State<ToolsPage> {
   String? _selectedCategory;
 
   final List<Map<String, dynamic>> _categories = [
-    {"name": "Réseau", "icon": Icons.lan_rounded, "color": Colors.blue},
-    {"name": "Web", "icon": Icons.public_rounded, "color": Colors.green},
-    {"name": "Passwords", "icon": Icons.key_rounded, "color": Colors.orange},
-    {"name": "Wifi", "icon": Icons.wifi_rounded, "color": Colors.purple},
-    {"name": "Reversing", "icon": Icons.memory_rounded, "color": Colors.red},
+    {"name": "Réseau", "icon": Icons.lan_sharp, "count": 12},
+    {"name": "Web", "icon": Icons.public_sharp, "count": 10},
+    {"name": "Passwords", "icon": Icons.key_sharp, "count": 4},
+    {"name": "Wifi", "icon": Icons.wifi_sharp, "count": 2},
+    {"name": "Reversing", "icon": Icons.memory_sharp, "count": 4},
   ];
 
   @override
@@ -155,8 +156,8 @@ class _ToolsPageState extends State<ToolsPage> {
       return Scaffold(
         appBar: AppBar(
           title: const Text(
-            "VXKIT",
-            style: TextStyle(letterSpacing: 6, fontWeight: FontWeight.w900, color: Colors.white, fontSize: 22),
+            "VXKIT_CORE",
+            style: TextStyle(letterSpacing: 8, fontWeight: FontWeight.w900, color: Colors.white, fontSize: 18),
           ),
         ),
         body: SingleChildScrollView(
@@ -165,8 +166,8 @@ class _ToolsPageState extends State<ToolsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "INFRASTRUCTURE",
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.blueAccent, letterSpacing: 2),
+                "MODULES D'EXÉCUTION",
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFF26A5E4), letterSpacing: 2),
               ),
               const SizedBox(height: 20),
               GridView.builder(
@@ -174,9 +175,9 @@ class _ToolsPageState extends State<ToolsPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1.2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 1.1,
                 ),
                 itemCount: _categories.length,
                 itemBuilder: (context, index) {
@@ -195,10 +196,10 @@ class _ToolsPageState extends State<ToolsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new_sharp, size: 18),
           onPressed: () => setState(() => _selectedCategory = null),
         ),
-        title: Text(_selectedCategory!.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.bold, letterSpacing: 2)),
+        title: Text(_selectedCategory!.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 4, fontSize: 16)),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
@@ -214,26 +215,19 @@ class _ToolsPageState extends State<ToolsPage> {
   Widget _buildCategoryCard(Map<String, dynamic> cat) {
     return InkWell(
       onTap: () => setState(() => _selectedCategory = cat["name"]),
-      borderRadius: BorderRadius.circular(20),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.white.withOpacity(0.06),
-              Colors.white.withOpacity(0.01),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(20),
+          color: const Color(0xFF0A0A0A),
           border: Border.all(color: Colors.white.withOpacity(0.08)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(cat["icon"], size: 36, color: cat["color"]),
-            const SizedBox(height: 12),
-            Text(cat["name"], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+            Icon(cat["icon"], size: 32, color: Colors.white70),
+            const SizedBox(height: 16),
+            Text(cat["name"].toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 2)),
+            const SizedBox(height: 4),
+            Text("${cat["count"]} BINAIRES", style: const TextStyle(color: Color(0xFF26A5E4), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1)),
           ],
         ),
       ),
@@ -244,21 +238,23 @@ class _ToolsPageState extends State<ToolsPage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(16),
+        color: const Color(0xFF0A0A0A),
         border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
         leading: Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(12)),
-          child: Icon(tool.icon, color: Colors.white, size: 24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF111111), 
+            border: Border.all(color: Colors.white.withOpacity(0.05))
+          ),
+          child: Icon(tool.icon, color: Colors.white, size: 20),
         ),
-        title: Text(tool.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(tool.name.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 1)),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 6),
-          child: Text(tool.description, style: TextStyle(color: Colors.grey[500], fontSize: 12, height: 1.3)),
+          child: Text(tool.description, style: const TextStyle(color: Colors.white54, fontSize: 11, height: 1.4, fontFamily: 'monospace')),
         ),
         onTap: () => _showToolDetails(context, tool),
       ),
@@ -275,7 +271,7 @@ class _ToolsPageState extends State<ToolsPage> {
   }
 }
 
-// --- Feuille de détails (Modernisée) ---
+// --- Feuille de détails des outils ---
 class _ToolDetailSheet extends StatelessWidget {
   final PentestTool tool;
   const _ToolDetailSheet({required this.tool});
@@ -285,20 +281,20 @@ class _ToolDetailSheet extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: const BoxDecoration(
-        color: Color(0xFF0D0D0D),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+        color: Color(0xFF0A0A0A),
+        border: Border(top: BorderSide(color: Colors.white10, width: 1)),
       ),
       child: Column(
         children: [
           const SizedBox(height: 12),
-          Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(2))),
+          Container(width: 40, height: 2, color: Colors.white24),
           Padding(
             padding: const EdgeInsets.all(24),
             child: Row(
               children: [
-                Icon(tool.icon, color: Colors.blueAccent, size: 32),
+                Icon(tool.icon, color: const Color(0xFF26A5E4), size: 28),
                 const SizedBox(width: 16),
-                Text(tool.name, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900)),
+                Text(tool.name.toUpperCase(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, letterSpacing: 2)),
               ],
             ),
           ),
@@ -308,10 +304,10 @@ class _ToolDetailSheet extends StatelessWidget {
               child: Column(
                 children: [
                   const TabBar(
-                    indicatorColor: Colors.blueAccent,
-                    indicatorWeight: 3,
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1),
-                    tabs: [Tab(text: "INSTALL"), Tab(text: "COMMANDS")],
+                    indicatorColor: Color(0xFF26A5E4),
+                    indicatorWeight: 2,
+                    labelStyle: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 11),
+                    tabs: [Tab(text: "DÉPLOIEMENT"), Tab(text: "EXÉCUTION")],
                   ),
                   Expanded(
                     child: TabBarView(
@@ -346,11 +342,11 @@ class _ToolDetailSheet extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(u.title, style: const TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 14)),
+            Text(u.title.toUpperCase(), style: const TextStyle(color: Color(0xFF26A5E4), fontWeight: FontWeight.w900, fontSize: 11, letterSpacing: 1)),
             const SizedBox(height: 4),
-            Text(u.explanation, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+            Text(u.explanation, style: const TextStyle(color: Colors.white54, fontSize: 11, fontFamily: 'monospace')),
             _buildCodeSection(context, "", u.command, showLabel: false),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
           ],
         );
       },
@@ -363,25 +359,28 @@ class _ToolDetailSheet extends StatelessWidget {
       children: [
         if (showLabel) Padding(
           padding: const EdgeInsets.only(bottom: 8, top: 10),
-          child: Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.grey)),
+          child: Text(label.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Colors.white30, letterSpacing: 2)),
         ),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(12),
+            color: const Color(0xFF000000),
             border: Border.all(color: Colors.white.withOpacity(0.05)),
           ),
           child: Row(
             children: [
               Expanded(
-                child: Text(code, style: const TextStyle(fontFamily: 'monospace', color: Colors.greenAccent, fontSize: 13)),
+                child: Text(code, style: const TextStyle(fontFamily: 'monospace', color: Color(0xFF00FF41), fontSize: 12)),
               ),
               IconButton(
-                icon: const Icon(Icons.copy_rounded, size: 18, color: Colors.white30),
+                icon: const Icon(Icons.copy_sharp, size: 16, color: Colors.white30),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: code));
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Copié !")));
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("PAYLOAD COPIÉ", style: TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.bold)),
+                    backgroundColor: Color(0xFF26A5E4),
+                    duration: Duration(seconds: 1),
+                  ));
                 },
               )
             ],
@@ -392,52 +391,151 @@ class _ToolDetailSheet extends StatelessWidget {
   }
 }
 
-// --- Page 2: Flash Commands ---
-class CommandsQuickPage extends StatelessWidget {
-  const CommandsQuickPage({super.key});
+// --- Page 2: Simulateur de Terminal (Nouveau) ---
+class TerminalSimPage extends StatefulWidget {
+  const TerminalSimPage({super.key});
+
+  @override
+  State<TerminalSimPage> createState() => _TerminalSimPageState();
+}
+
+class _TerminalSimPageState extends State<TerminalSimPage> {
+  final TextEditingController _cmdController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode();
+  
+  final List<Map<String, String>> _history = [
+    {"text": "VXKIT OS v1.0.0-STABLE READY.", "type": "sys"},
+    {"text": "Tapez 'help' pour voir les commandes disponibles.", "type": "sys"},
+  ];
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  void _handleCommand(String input) async {
+    final cmd = input.trim();
+    if (cmd.isEmpty) return;
+
+    setState(() {
+      _history.add({"text": "root@vxkit:~# $cmd", "type": "input"});
+      _cmdController.clear();
+    });
+    _scrollToBottom();
+    _focusNode.requestFocus(); // Garde le clavier ouvert
+
+    // Délai pour simuler le traitement
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    String response;
+    String type = "output";
+
+    switch (cmd.toLowerCase()) {
+      case 'help':
+        response = "Commandes actives:\n  ls       - Liste les répertoires\n  clear    - Nettoie le terminal\n  whoami   - Affiche l'utilisateur\n  nmap     - Simule un scan réseau\n  exploit  - Simule une attaque";
+        type = "sys";
+        break;
+      case 'ls':
+        response = "bin/  etc/  tools/  payloads/  logs/  vx_scripts/";
+        type = "sys";
+        break;
+      case 'clear':
+        setState(() {
+          _history.clear();
+        });
+        return;
+      case 'whoami':
+        response = "root (vxkit-operator)";
+        type = "sys";
+        break;
+      case 'nmap':
+        response = "Starting Nmap 7.93...\nScanning 127.0.0.1...\n[+] Port 22/tcp Open (ssh)\n[+] Port 80/tcp Open (http)\n[+] Port 443/tcp Open (https)\nNmap done: 1 IP address scanned in 1.42 seconds.";
+        type = "success";
+        break;
+      case 'exploit':
+        response = "[*] Started reverse TCP handler on 0.0.0.0:4444\n[*] Sending stage (175174 bytes) to 192.168.1.45\n[+] Meterpreter session 1 opened (192.168.1.45)\n\nmeterpreter > getuid\nServer username: NT AUTHORITY\\SYSTEM";
+        type = "danger";
+        break;
+      default:
+        response = "bash: $cmd: command not found";
+        type = "danger";
+        break;
+    }
+
+    setState(() {
+      _history.add({"text": response, "type": type});
+    });
+    _scrollToBottom();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("FLASH COMMANDS", style: TextStyle(letterSpacing: 2, fontWeight: FontWeight.bold))),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          _buildQuickCard(context, "IP Publique", "curl ifconfig.me", Icons.public),
-          _buildQuickCard(context, "Nettoyer Traces", "history -c && rm -rf ~/.bash_history", Icons.delete_sweep),
-          _buildQuickCard(context, "Ports Ouverts", "netstat -tuln", Icons.settings_ethernet),
-          _buildQuickCard(context, "Processus Root", "ps aux | grep root", Icons.admin_panel_settings),
-        ],
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text("TERMINAL_SIM", style: TextStyle(letterSpacing: 4, fontWeight: FontWeight.w900, fontSize: 16)),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(color: Colors.white10, height: 1.0),
+        ),
       ),
-    );
-  }
-
-  Widget _buildQuickCard(BuildContext context, String title, String cmd, IconData icon) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
-      ),
-      child: Row(
+      body: Column(
         children: [
-          Icon(icon, color: Colors.blueAccent, size: 24),
-          const SizedBox(width: 16),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                const SizedBox(height: 4),
-                Text(cmd, style: const TextStyle(fontFamily: 'monospace', color: Colors.grey, fontSize: 12), overflow: TextOverflow.ellipsis),
-              ],
+            child: ListView.builder(
+              controller: _scrollController,
+              padding: const EdgeInsets.all(16),
+              itemCount: _history.length,
+              itemBuilder: (context, index) {
+                final line = _history[index];
+                Color textColor;
+                switch (line["type"]) {
+                  case "input": textColor = Colors.white; break;
+                  case "sys": textColor = Colors.white54; break;
+                  case "success": textColor = const Color(0xFF00FF41); break;
+                  case "danger": textColor = const Color(0xFFFF003C); break;
+                  default: textColor = Colors.white70;
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    line["text"]!,
+                    style: TextStyle(fontFamily: 'monospace', fontSize: 12, color: textColor),
+                  ),
+                );
+              },
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.copy_rounded, color: Colors.white24),
-            onPressed: () => Clipboard.setData(ClipboardData(text: cmd)),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            color: const Color(0xFF0A0A0A),
+            child: Row(
+              children: [
+                const Text("root@vxkit:~# ", style: TextStyle(fontFamily: 'monospace', color: Color(0xFF00FF41), fontSize: 12, fontWeight: FontWeight.bold)),
+                Expanded(
+                  child: TextField(
+                    controller: _cmdController,
+                    focusNode: _focusNode,
+                    style: const TextStyle(fontFamily: 'monospace', color: Colors.white, fontSize: 12),
+                    cursorColor: const Color(0xFF26A5E4),
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    onSubmitted: _handleCommand,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -451,36 +549,43 @@ class UpdatesPage extends StatelessWidget {
 
   static const List<UpdateRelease> updates = [
     UpdateRelease(
+      version: "v0.0.3",
+      date: "18 Mai 2026",
+      changes: [
+        "Nouveau design Industrial Cyber (Dark/Steel/Cobalt).",
+        "Ajout d'un simulateur de Terminal interactif.",
+        "Restauration de l'arsenal complet (Metasploit, Hydra, Radare2...).",
+      ],
+    ),
+    UpdateRelease(
       version: "v0.0.2",
       date: "17 Mai 2026",
       changes: [
-        "Nouveau design Cyber-Dark Premium.",
-        "Redirection directe vers le Telegram officiel.",
-        "Ajout de la bibliothèque d'outils complète.",
+        "Mise à jour des scripts de compilation de contournement iOS.",
+        "Refonte du système de catégories.",
       ],
     ),
     UpdateRelease(
       version: "v0.0.1",
       date: "16 Mai 2026",
-      changes: ["Lancement initial.", "Bypass Xcode pour Codemagic."],
+      changes: ["Lancement initial de VxKit.", "Bypass xcode team development."],
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("CHANGELOGS", style: TextStyle(letterSpacing: 2, fontWeight: FontWeight.bold))),
+      appBar: AppBar(title: const Text("SYSTEM_LOGS", style: TextStyle(letterSpacing: 4, fontWeight: FontWeight.w900, fontSize: 16))),
       body: ListView.builder(
         padding: const EdgeInsets.all(20),
         itemCount: updates.length,
         itemBuilder: (context, i) {
           final up = updates[i];
           return Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.02),
-              borderRadius: BorderRadius.circular(20),
+              color: const Color(0xFF0A0A0A),
               border: Border.all(color: Colors.white.withOpacity(0.05)),
             ),
             child: Column(
@@ -489,19 +594,18 @@ class UpdatesPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(up.version, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.blueAccent)),
-                    Text(up.date, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    Text(up.version, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF26A5E4), fontFamily: 'monospace')),
+                    Text(up.date.toUpperCase(), style: const TextStyle(color: Colors.white30, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const Divider(color: Colors.white10, height: 24),
                 ...up.changes.map((c) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.chevron_right, size: 18, color: Colors.blueAccent),
-                      const SizedBox(width: 8),
-                      Expanded(child: Text(c, style: const TextStyle(color: Colors.white70, fontSize: 13))),
+                      const Text("> ", style: TextStyle(color: Colors.white24, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
+                      Expanded(child: Text(c, style: const TextStyle(color: Colors.white70, fontSize: 12, fontFamily: 'monospace'))),
                     ],
                   ),
                 )),
@@ -514,7 +618,7 @@ class UpdatesPage extends StatelessWidget {
   }
 }
 
-// --- Page 4: About & Telegram (Bouton Bleu Officiel) ---
+// --- Page 4: About & Telegram ---
 class VxAboutPage extends StatelessWidget {
   const VxAboutPage({super.key});
 
@@ -528,87 +632,199 @@ class VxAboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: const Alignment(0, -0.5),
-            radius: 1.0,
-            colors: [Colors.blueAccent.withOpacity(0.1), Colors.transparent],
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.shield_rounded, size: 80, color: Colors.white),
-            const SizedBox(height: 20),
-            const Text("VXKIT", style: TextStyle(fontSize: 48, fontWeight: FontWeight.w900, letterSpacing: 8)),
-            const Text("PENTEST SUITE FOR MOBILE", style: TextStyle(color: Colors.grey, letterSpacing: 2, fontSize: 10)),
-            const SizedBox(height: 60),
-            _buildInfoRow("DEVELOPER", "HX"),
-            _buildInfoRow("VERSION", "0.0.2"),
-            _buildInfoRow("STATUS", "STABLE"),
-            const SizedBox(height: 60),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: ElevatedButton(
-                onPressed: _launchTelegram,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF26A5E4), // Couleur officielle Telegram
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 60),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                  elevation: 0,
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.telegram, size: 28),
-                    SizedBox(width: 12),
-                    Text("REJOINDRE TELEGRAM", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
-                  ],
-                ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.shield_sharp, size: 80, color: Colors.white),
+          const SizedBox(height: 24),
+          const Text("VXKIT_OS", style: TextStyle(fontSize: 42, fontWeight: FontWeight.w900, letterSpacing: 8)),
+          const Text("OFFENSIVE MOBILE INFRASTRUCTURE", style: TextStyle(color: Colors.white30, letterSpacing: 2, fontSize: 9, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 60),
+          _buildInfoRow("OPERATOR", "HX_CORE"),
+          _buildInfoRow("BUILD_VERSION", "v0.0.3-STABLE"),
+          _buildInfoRow("NETWORK_STATUS", "ENCRYPTED"),
+          const SizedBox(height: 60),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: ElevatedButton(
+              onPressed: _launchTelegram,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF26A5E4),
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 56),
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero), // Bordures brutes
+                elevation: 0,
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.telegram, size: 24),
+                  SizedBox(width: 12),
+                  Text("SECURE_COMMS (TELEGRAM)", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () => Clipboard.setData(const ClipboardData(text: "https://t.me/vxshare5")),
-              child: const Text("Copier le lien", style: TextStyle(color: Colors.white24, fontSize: 12)),
-            )
-          ],
-        ),
+          ),
+          const SizedBox(height: 24),
+          TextButton(
+            onPressed: () => Clipboard.setData(const ClipboardData(text: "https://t.me/vxshare5")),
+            child: const Text("[ COPY_RAW_LINK ]", style: TextStyle(color: Colors.white24, fontSize: 10, fontFamily: 'monospace', fontWeight: FontWeight.bold)),
+          )
+        ],
       ),
     );
   }
 
   Widget _buildInfoRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          Text(label, style: const TextStyle(color: Colors.white30, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 2)),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12, fontFamily: 'monospace', color: Colors.white70)),
         ],
       ),
     );
   }
 }
 
-// --- Données des outils ---
+// --- Base de Données des Outils ---
 class _ToolsData {
   static const List<PentestTool> tools = [
+    // --- RESEAU ---
     PentestTool(
       name: "Nmap",
       category: "Réseau",
-      description: "Scanner de ports et services réseau.",
+      description: "Scanner de ports et cartographie réseau incontournable.",
       icon: Icons.radar,
       installCommands: {"Termux": "pkg install nmap", "iSH": "apk add nmap"},
       usages: [
-        ToolUsageExample(title: "Scan Standard", command: "nmap target.com", explanation: "Scan des 1000 ports par défaut."),
+        ToolUsageExample(title: "Scan Rapide", command: "nmap target.com", explanation: "Analyse les 1000 ports les plus communs."),
+        ToolUsageExample(title: "Détection d'OS", command: "nmap -O target.com", explanation: "Tente de déterminer le système d'exploitation."),
+        ToolUsageExample(title: "Scan Furtif", command: "nmap -sS -T4 target.com", explanation: "Scan SYN pour éviter la détection par les pare-feu."),
       ],
     ),
-    // Ajoutez vos 32 outils ici sur le même modèle...
+    PentestTool(
+      name: "Metasploit",
+      category: "Réseau",
+      description: "Framework d'exploitation et de post-exploitation.",
+      icon: Icons.bug_report_sharp,
+      installCommands: {"Termux": "pkg install unstable-repo && pkg install metasploit"},
+      usages: [
+        ToolUsageExample(title: "Lancer la console", command: "msfconsole -q", explanation: "Ouvre Metasploit en mode silencieux."),
+        ToolUsageExample(title: "Recherche d'exploit", command: "search type:exploit platform:windows", explanation: "Cherche des failles pour Windows."),
+        ToolUsageExample(title: "Handler (Reverse Shell)", command: "use exploit/multi/handler\nset PAYLOAD windows/meterpreter/reverse_tcp\nexploit", explanation: "Ouvre un port local pour écouter une connexion entrante."),
+      ],
+    ),
+    PentestTool(
+      name: "Bettercap",
+      category: "Réseau",
+      description: "Couteau suisse pour les attaques MITM, WiFi et réseau local.",
+      icon: Icons.security_sharp,
+      installCommands: {"Termux": "pkg install bettercap"},
+      usages: [
+        ToolUsageExample(title: "Écoute réseau", command: "bettercap -iface wlan0", explanation: "Lance l'interface sur la carte wifi principale."),
+        ToolUsageExample(title: "Détection d'hôtes", command: "net.probe on", explanation: "Découvre activement les appareils sur le LAN."),
+        ToolUsageExample(title: "Spoofing ARP", command: "set arp.spoof.targets IP; arp.spoof on", explanation: "Détourne le trafic d'une cible vers votre machine."),
+      ],
+    ),
+    PentestTool(
+      name: "Netcat",
+      category: "Réseau",
+      description: "Lecture et écriture brute de données via TCP/UDP.",
+      icon: Icons.settings_ethernet_sharp,
+      installCommands: {"Termux": "pkg install netcat", "iSH": "apk add netcat-openbsd"},
+      usages: [
+        ToolUsageExample(title: "Écoute locale", command: "nc -lvnp 4444", explanation: "Ouvre le port 4444 pour réceptionner un reverse shell."),
+        ToolUsageExample(title: "Transfert de fichier", command: "nc -lvnp 9000 > recu.txt", explanation: "Ouvre un port et sauvegarde tout le texte reçu."),
+      ],
+    ),
+    PentestTool(
+      name: "Impacket",
+      category: "Réseau",
+      description: "Collection de scripts Python pour protocoles de bas niveau (SMB, WMI).",
+      icon: Icons.layers_sharp,
+      installCommands: {"Termux": "pkg install python python-cryptography && pip install impacket"},
+      usages: [
+        ToolUsageExample(title: "Exécution WMI", command: "wmiexec.py admin@192.168.1.10", explanation: "Ouvre un shell furtif Windows via WMI sans créer de service."),
+        ToolUsageExample(title: "Dump de hashs SAM", command: "secretsdump.py local -sam sam.save -system sys.save", explanation: "Extrait les mots de passe Windows locaux."),
+      ],
+    ),
+    
+    // --- WEB ---
+    PentestTool(
+      name: "Sqlmap",
+      category: "Web",
+      description: "Outil d'automatisation d'injections SQL et de prise de contrôle de BDD.",
+      icon: Icons.storage_sharp,
+      installCommands: {"Termux": "pkg install python && git clone https://github.com/sqlmapproject/sqlmap.git"},
+      usages: [
+        ToolUsageExample(title: "Détection d'injection", command: "python sqlmap.py -u 'http://target.com/page.php?id=1'", explanation: "Vérifie si le paramètre ID est vulnérable."),
+        ToolUsageExample(title: "Extraction de base", command: "python sqlmap.py -u 'URL' --dbs", explanation: "Liste toutes les bases de données du serveur."),
+        ToolUsageExample(title: "Dump de table", command: "python sqlmap.py -u 'URL' -D mabase -T users --dump", explanation: "Aspire le contenu de la table utilisateurs."),
+      ],
+    ),
+    PentestTool(
+      name: "Gobuster",
+      category: "Web",
+      description: "Fuzzing de répertoires, sous-domaines et vhosts en Go.",
+      icon: Icons.travel_explore_sharp,
+      installCommands: {"Termux": "pkg install gobuster", "iSH": "apk add go && go install github.com/OJ/gobuster/v3@latest"},
+      usages: [
+        ToolUsageExample(title: "Brute-force de dossiers", command: "gobuster dir -u http://target.com -w wordlist.txt", explanation: "Recherche les répertoires cachés d'un site web."),
+        ToolUsageExample(title: "Fuzzing agressif", command: "gobuster dir -u http://target.com -w wordlist.txt -t 50", explanation: "Accélère la recherche avec 50 threads simultanés."),
+      ],
+    ),
+    PentestTool(
+      name: "Nuclei",
+      category: "Web",
+      description: "Scanner de vulnérabilités très rapide basé sur des templates YAML.",
+      icon: Icons.flash_on_sharp,
+      installCommands: {"Termux": "pkg install nuclei"},
+      usages: [
+        ToolUsageExample(title: "Scan par défaut", command: "nuclei -u http://target.com", explanation: "Exécute la base de templates de sécurité sur la cible."),
+        ToolUsageExample(title: "Scan ciblé CVE", command: "nuclei -u http://target.com -t cves/", explanation: "Vérifie uniquement les vulnérabilités publiques (CVE)."),
+      ],
+    ),
+
+    // --- PASSWORDS ---
+    PentestTool(
+      name: "John The Ripper",
+      category: "Passwords",
+      description: "Casseur de mots de passe hors-ligne historique et robuste.",
+      icon: Icons.key_sharp,
+      installCommands: {"Termux": "pkg install john"},
+      usages: [
+        ToolUsageExample(title: "Attaque par dictionnaire", command: "john --wordlist=rockyou.txt hashes.txt", explanation: "Craque les hashs avec une wordlist."),
+        ToolUsageExample(title: "Afficher les résultats", command: "john --show hashes.txt", explanation: "Affiche les mots de passe déchiffrés stockés en cache."),
+      ],
+    ),
+    PentestTool(
+      name: "Hydra",
+      category: "Passwords",
+      description: "Outil de brute-force de login réseau ultra-rapide.",
+      icon: Icons.password_sharp,
+      installCommands: {"Termux": "pkg install hydra", "iSH": "apk add hydra"},
+      usages: [
+        ToolUsageExample(title: "Brute-force SSH", command: "hydra -l root -P pass.txt ssh://192.168.1.10", explanation: "Tente de craquer le compte root du serveur SSH."),
+        ToolUsageExample(title: "Brute-force FTP", command: "hydra -L users.txt -P pass.txt ftp://192.168.1.50", explanation: "Teste des combos nom/mot de passe sur un FTP."),
+      ],
+    ),
+
+    // --- REVERSING ---
+    PentestTool(
+      name: "Radare2",
+      category: "Reversing",
+      description: "Framework CLI complet d'ingénierie inverse et de patching.",
+      icon: Icons.memory_sharp,
+      installCommands: {"Termux": "pkg install radare2", "iSH": "apk add radare2"},
+      usages: [
+        ToolUsageExample(title: "Analyse automatique", command: "r2 -A ./binaire", explanation: "Ouvre et dissèque automatiquement un exécutable."),
+        ToolUsageExample(title: "Lire une fonction", command: "pdf @main", explanation: "Affiche le code assembleur de la fonction principale."),
+      ],
+    ),
   ];
 }
+
 

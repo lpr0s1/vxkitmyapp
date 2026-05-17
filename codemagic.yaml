@@ -24,16 +24,15 @@ workflows:
 
           echo "Patch du fichier Xcode pour bypass la signature..."
 
-          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' $PROJECT_FILE
-          sed -i '' 's/DEVELOPMENT_TEAM = [A-Z0-9]*;/DEVELOPMENT_TEAM = "";/g' $PROJECT_FILE
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' "$PROJECT_FILE"
+          sed -i '' 's/DEVELOPMENT_TEAM = [A-Z0-9]*;/DEVELOPMENT_TEAM = "";/g' "$PROJECT_FILE"
 
-          # Ajout forcé des flags si absents
           if ! grep -q "CODE_SIGNING_ALLOWED" "$PROJECT_FILE"; then
             echo "Ajout des flags de désactivation..."
             sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER.*/&\
-				CODE_SIGNING_ALLOWED = NO;\
-				CODE_SIGNING_REQUIRED = NO;\
-				CODE_SIGN_IDENTITY = "";/' $PROJECT_FILE
+                CODE_SIGNING_ALLOWED = NO;\
+                CODE_SIGNING_REQUIRED = NO;\
+                CODE_SIGN_IDENTITY = "";/g' "$PROJECT_FILE"
           fi
 
           echo "Patch appliqué avec succès."

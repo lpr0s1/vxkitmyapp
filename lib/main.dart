@@ -1642,7 +1642,7 @@ class UpdatesPage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
-          "UPDATES", 
+          "Mises a jour", 
           style: TextStyle(letterSpacing: 2, color: Colors.white, fontWeight: FontWeight.bold)
         ),
         centerTitle: true,

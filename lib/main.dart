@@ -110,9 +110,9 @@ class _MainNavigationState extends State<MainNavigation> {
           type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.grid_view_sharp), label: 'Outils'),
-            BottomNavigationBarItem(icon: Icon(Icons.bolt), label: 'Quick'),
+            BottomNavigationBarItem(icon: Icon(Icons.bolt), label: 'Flash'),
             BottomNavigationBarItem(icon: Icon(Icons.update), label: 'Updates'),
-            BottomNavigationBarItem(icon: Icon(Icons.security), label: 'Vx'),
+            BottomNavigationBarItem(icon: Icon(Icons.security), label: 'Vxkit'),
           ],
         ),
       ),
@@ -1216,7 +1216,7 @@ class _ToolsPageState extends State<ToolsPage> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(
-            "VXKIT SUITE", 
+            "VXKIT", 
             style: TextStyle(letterSpacing: 4, fontWeight: FontWeight.w900, color: Colors.white)
           ),
           centerTitle: true,
@@ -1618,14 +1618,20 @@ class UpdatesPage extends StatelessWidget {
 
   static const List<UpdateRelease> updates = [
     UpdateRelease(
-      version: "v0.0.1",
+      version: "v0.0.2",
       date: "17 mai 2026",
       changes: [
-        "Lancement initial de la suite VxKit.",
-        "Ajout de 32 outils détaillés avec explications concises.",
-        "Refonte complète de l'accueil avec grille de sélection des catégories.",
-        "Ajout d'un onglet d'utilisation dédié avec exemples de commandes réelles.",
-        "Bypass fonctionnel de la contrainte d'équipe de développement de Xcode pour la compilation sur Codemagic.",
+        "Ajout de 32 outils détaillés avec leurs tuto.",
+        "Mise à jour des scripts de compilation de contournement iOS.",
+        "Optimisation de la vitesse de chargement de la grille des catégories.",
+      ],
+    ),
+    UpdateRelease(
+      version: "v0.0.1",
+      date: "16 mai 2026",
+      changes: [
+        "Lancement initial de VxKit.",
+        "Bypass xcode team development.",
       ],
     ),
   ];
@@ -1711,13 +1717,13 @@ class VxAboutPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Vx", 
+                "VxKit", 
                 style: TextStyle(fontSize: 72, fontWeight: FontWeight.w900, letterSpacing: -4, color: Colors.white)
               ),
               const Divider(color: Colors.white10, height: 32),
               _infoRow("DEVELOPER", "Hx"),
-              _infoRow("VERSION", "0.0.1"),
-              _infoRow("STATUS", "STABLE"),
+              _infoRow("VERSION", "0.0.2"),
+              _infoRow("STATUS", "En cours de developpement..."),
               const SizedBox(height: 40),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(

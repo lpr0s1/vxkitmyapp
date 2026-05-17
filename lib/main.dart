@@ -143,11 +143,11 @@ class _ToolsPageState extends State<ToolsPage> {
   String? _selectedCategory;
 
   final List<Map<String, dynamic>> _categories = [
-    {"name": "Réseau", "icon": Icons.lan_sharp, "count": 12},
-    {"name": "Web", "icon": Icons.public_sharp, "count": 10},
-    {"name": "Passwords", "icon": Icons.key_sharp, "count": 4},
-    {"name": "Wifi", "icon": Icons.wifi_sharp, "count": 2},
-    {"name": "Reversing", "icon": Icons.memory_sharp, "count": 4},
+    {"name": "Réseau", "icon": Icons.lan_sharp, "count": 5},
+    {"name": "Web", "icon": Icons.public_sharp, "count": 3},
+    {"name": "Passwords", "icon": Icons.key_sharp, "count": 2},
+    {"name": "...", "icon": Icons.wifi_sharp, "count": 0},
+    {"name": "Reversing", "icon": Icons.memory_sharp, "count": 1},
   ];
 
   @override
@@ -166,8 +166,8 @@ class _ToolsPageState extends State<ToolsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "MODULES D'EXÉCUTION",
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFF26A5E4), letterSpacing: 2),
+                "Outils de pentest",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: Color(0xFF26A5E4), letterSpacing: 2),
               ),
               const SizedBox(height: 20),
               GridView.builder(
@@ -227,7 +227,7 @@ class _ToolsPageState extends State<ToolsPage> {
             const SizedBox(height: 16),
             Text(cat["name"].toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 2)),
             const SizedBox(height: 4),
-            Text("${cat["count"]} BINAIRES", style: const TextStyle(color: Color(0xFF26A5E4), fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1)),
+            Text("${cat["count"]} Outils", style: const TextStyle(color: Color(0xFF26A5E4), fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 2)),
           ],
         ),
       ),

@@ -460,7 +460,7 @@ class _TerminalSimPageState extends State<TerminalSimPage> {
         type = "sys";
         break;
       case 'set rhost':
-        response = "rhost = 192.168.1.10 (la cible)"
+        response = "rhost = 192.168.1.10 (la cible)";
         type = "sys";
         break;
       case 'set rport':

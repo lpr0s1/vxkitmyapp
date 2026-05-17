@@ -3,9 +3,11 @@ workflows:
     name: vxkit
     instance_type: mac_mini_m2
     max_build_duration: 60
+
     environment:
       flutter: stable
       xcode: latest
+
     scripts:
       - name: 1. Initialiser l'arborescence iOS
         script: |
@@ -15,27 +17,51 @@ workflows:
           else
             echo "Dossier iOS déjà présent."
           fi
+
+      - name: 1.5 Patch Xcode pour désactiver la signature
+        script: |
+          PROJECT_FILE="ios/Runner.xcodeproj/project.pbxproj"
+
+          echo "Patch du fichier Xcode pour bypass la signature..."
+
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' $PROJECT_FILE
+          sed -i '' 's/DEVELOPMENT_TEAM = [A-Z0-9]*;/DEVELOPMENT_TEAM = "";/g' $PROJECT_FILE
+
+          # Ajout forcé des flags si absents
+          if ! grep -q "CODE_SIGNING_ALLOWED" "$PROJECT_FILE"; then
+            echo "Ajout des flags de désactivation..."
+            sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER.*/&\
+				CODE_SIGNING_ALLOWED = NO;\
+				CODE_SIGNING_REQUIRED = NO;\
+				CODE_SIGN_IDENTITY = "";/' $PROJECT_FILE
+          fi
+
+          echo "Patch appliqué avec succès."
+
       - name: 2. Télécharger les dépendances
+        script: flutter pub get
+
+      - name: 3. Compiler iOS sans signature
         script: |
-          flutter pub get
-      - name: 3. Compiler la version iOS (Sans signature)
-        script: |
-          echo "Compilation en cours... (Mode sans signature Apple)"
+          echo "Compilation iOS sans signature..."
           flutter build ios --release --no-codesign
+
       - name: 4. Créer le fichier .ipa
         script: |
-          echo "Empaquetage du Payload..."
+          echo "Création du fichier IPA..."
           mkdir -p build/ios/ipa
           cd build/ios/iphoneos
           mkdir -p Payload
           mv Runner.app Payload/
           zip -r -q ../ipa/vxkit.ipa Payload
+
     artifacts:
       - build/ios/ipa/*.ipa
+
     publishing:
       email:
         recipients:
-          - test@example.com # Codemagic remplacera par votre email de compte
+          - test@example.com
         notify:
           success: true
           failure: true

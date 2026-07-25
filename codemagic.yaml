@@ -1,6 +1,6 @@
 workflows:
   ios-unsigned-ipa:
-    name: vxkit
+    name: idle_nightclub
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
@@ -11,31 +11,35 @@ workflows:
         script: |
           echo "Génération des dossiers natifs iOS..."
           if [ ! -d "ios" ]; then
-            flutter create . --project-name vxkit --org com.hx --platforms ios
+            flutter create . --project-name idle_nightclub --org com.studio.nightclub --platforms ios
           else
             echo "Dossier iOS déjà présent."
           fi
       - name: 2. Télécharger les dépendances
         script: |
           flutter pub get
-            - name: 1.5 Générer automatiquement l'icône de l'application
+      - name: 3. Générer automatiquement l'icône de l'application
         script: |
           if [ -f "assets/app_icon.png" ]; then
-            flutter pub get
             dart run flutter_launcher_icons
           fi
-      - name: 3. Compiler la version iOS (Sans signature)
+      - name: 4. Compiler la version iOS (Sans signature)
         script: |
           echo "Compilation en cours... (Mode sans signature Apple)"
           flutter build ios --release --no-codesign
-      - name: 4. Créer le fichier .ipa
+      - name: 5. Créer le fichier .ipa
         script: |
           echo "Empaquetage du Payload..."
           mkdir -p build/ios/ipa
-          cd build/ios/iphoneos
+          # Gestion dynamique du dossier de sortie iOS selon la version de Flutter
+          if [ -d "build/ios/iphoneos" ]; then
+            cd build/ios/iphoneos
+          else
+            cd build/ios/Release-iphoneos
+          fi
           mkdir -p Payload
           mv Runner.app Payload/
-          zip -r -q ../ipa/vxkit.ipa Payload
+          zip -r -q ../ipa/idle_nightclub.ipa Payload
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
@@ -45,3 +49,4 @@ workflows:
         notify:
           success: true
           failure: true
+
